@@ -18,18 +18,25 @@ class Perceptron:
                 error = (labels[i] - prediction)/2
                 self.weights += learning_rate * error * np.insert(inputs[i], 0, 1)
 
+def train_model(X_train, y_train, perceptron):
+    train_for_0 = y_train.copy()[y_test == 1 or y_test == 2]
+    train_for_1 = y_train.copy()[y_test == 0 or y_test == 2]
+    train_for_2 = y_train.copy()[y_test == 0 or y_test == 1]
+    perceptron.train(X_train, train_for_0)
+    perceptron.train(X_train, train_for_1)
+    perceptron.train(X_train, train_for_2)
+
 perceptron = Perceptron(2)
 
-X_train = np.load("Perceptron_db/X_train.npy")
+X_train = np.load("Perceptron_db1/X_train.npy")
 X_train = [[np.sqrt(np.power(x[0], 2) + np.power(x[1], 2)), np.arctan(x[1]/x[0])] for x in X_train]
-y_train = np.load("Perceptron_db/y_train.npy")
-y_train[y_train == 0] = -1
+y_train = np.load("Perceptron_db1/y_train.npy")
 
-perceptron.train(X_train, y_train)
+train_model(X_train, y_train, perceptron)
 
-X_test = np.load("Perceptron_db/X_test.npy")
+X_test = np.load("Perceptron_db1/X_test.npy")
 X_test = [[np.sqrt(np.power(x[0], 2) + np.power(x[1], 2)), np.arctan(x[1]/x[0])] for x in X_test]
-y_test = np.load("Perceptron_db/y_test.npy")
+y_test = np.load("Perceptron_db1/y_test.npy")
 y_test[y_test == 0] = -1
 
 predictions = []
